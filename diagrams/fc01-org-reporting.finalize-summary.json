@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.architecture.json",
+    "sha256": "6f68af19c2c0be5079eb1e9226df2cf86095201b1b98dd9d96943ed13f67188a",
+    "bytes": 5190
+  },
+  "artifact": {
+    "path": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.html",
+    "sha256": "bc8f26fc8a35b5d1502176648584c0a93b0a7b80f736efdf08761da2d9f8e55a",
+    "bytes": 775008
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.finalize.json",
+    "summaryReceipt": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.finalize-summary.json",
+    "browserCheckReceipt": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-07T07:26:47.848Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3966,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 7,
+      "routesOverSuggestedBends": 3,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "c2",
+            "from": "shareholders",
+            "to": "board_ceo",
+            "label": "menovanie",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "id": "c4",
+            "from": "board_ceo",
+            "to": "cco_role",
+            "label": "menovanie gestorov (U-02)",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "point": [
+            526.0000000000001,
+            181.525
+          ],
+          "sharedNode": "board_ceo"
+        },
+        {
+          "left": {
+            "id": "c2",
+            "from": "shareholders",
+            "to": "board_ceo",
+            "label": "menovanie",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "id": "c5",
+            "from": "board_ceo",
+            "to": "sales_ops",
+            "label": "exekutívne riadenie",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "point": [
+            540,
+            181.525
+          ],
+          "sharedNode": "board_ceo"
+        },
+        {
+          "left": {
+            "id": "c2",
+            "from": "shareholders",
+            "to": "board_ceo",
+            "label": "menovanie",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "id": "c9",
+            "from": "cco_role",
+            "to": "supervisory_board",
+            "label": "kvartálny report (U-03)",
+            "collectionIndex": 8,
+            "artifactIndex": 9
+          },
+          "point": [
+            264.99999999999994,
+            181.52499999999998
+          ]
+        },
+        {
+          "left": {
+            "id": "c2",
+            "from": "shareholders",
+            "to": "board_ceo",
+            "label": "menovanie",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "id": "c10",
+            "from": "audit_ia",
+            "to": "supervisory_board",
+            "label": "priamy report DR",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "point": [
+            416.18333333332555,
+            181.525
+          ]
+        },
+        {
+          "left": {
+            "id": "c4",
+            "from": "board_ceo",
+            "to": "cco_role",
+            "label": "menovanie gestorov (U-02)",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "right": {
+            "id": "c9",
+            "from": "cco_role",
+            "to": "supervisory_board",
+            "label": "kvartálny report (U-03)",
+            "collectionIndex": 8,
+            "artifactIndex": 9
+          },
+          "point": [
+            265,
+            205.52499999999998
+          ],
+          "sharedNode": "cco_role"
+        },
+        {
+          "left": {
+            "id": "c4",
+            "from": "board_ceo",
+            "to": "cco_role",
+            "label": "menovanie gestorov (U-02)",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "right": {
+            "id": "c10",
+            "from": "audit_ia",
+            "to": "supervisory_board",
+            "label": "priamy report DR",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "point": [
+            526,
+            182
+          ]
+        },
+        {
+          "left": {
+            "id": "c5",
+            "from": "board_ceo",
+            "to": "sales_ops",
+            "label": "exekutívne riadenie",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "right": {
+            "id": "c10",
+            "from": "audit_ia",
+            "to": "supervisory_board",
+            "label": "priamy report DR",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "point": [
+            540,
+            182
+          ]
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "c3",
+            "from": "supervisory_board",
+            "to": "board_ceo",
+            "label": "dohľad",
+            "collectionIndex": 2,
+            "artifactIndex": 3
+          },
+          "bends": 4,
+          "stretch": 1.368
+        },
+        {
+          "relationship": {
+            "id": "c4",
+            "from": "board_ceo",
+            "to": "cco_role",
+            "label": "menovanie gestorov (U-02)",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "bends": 4,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "c10",
+            "from": "audit_ia",
+            "to": "supervisory_board",
+            "label": "priamy report DR",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "shareholders → board_ceo and board_ceo → cco_role cross next to board_ceo: move node shareholders or cco_role so the two reach board_ceo from different sides (for example one level with it, one directly above or below it).",
+      "shareholders → board_ceo and board_ceo → sales_ops cross next to board_ceo: move node shareholders or sales_ops so the two reach board_ceo from different sides (for example one level with it, one directly above or below it).",
+      "shareholders → board_ceo crosses cco_role → supervisory_board: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "shareholders → board_ceo crosses audit_ia → supervisory_board: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "board_ceo → cco_role and cco_role → supervisory_board cross next to cco_role: move node board_ceo or supervisory_board so the two reach cco_role from different sides (for example one level with it, one directly above or below it).",
+      "board_ceo → cco_role crosses audit_ia → supervisory_board: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "board_ceo → sales_ops crosses audit_ia → supervisory_board: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "supervisory_board → board_ceo needs 4 bends: move node supervisory_board or board_ceo so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

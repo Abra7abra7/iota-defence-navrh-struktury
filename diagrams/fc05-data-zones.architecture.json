@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FC-05: Architektúra 4 dátových zón a bezpečnostných perimetrov",
+    "output": "diagrams/fc05-data-zones.html",
+    "visual_preset": "blueprint",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "pub_web", "type": "frontend", "label": "Verejný Web & Portál", "sublabel": "Katalóg bez citlivých dát", "pos": [60, 100], "size": [170, 64], "tag": "ZÓNA 1" },
+    { "id": "pub_marketing", "type": "frontend", "label": "Marketingové materiály", "sublabel": "Posúdené Export Controlom", "pos": [60, 260], "size": [170, 64], "tag": "ZÓNA 1" },
+
+    { "id": "int_tenant", "type": "cloud", "label": "Firemný Tenant (EÚ)", "sublabel": "M365 / Workspace v EÚ", "pos": [290, 100], "size": [180, 64], "tag": "ZÓNA 2" },
+    { "id": "int_idp", "type": "security", "label": "IAM / IdP s HW MFA", "sublabel": "Overovanie identít a rolí", "pos": [290, 260], "size": [180, 64], "tag": "ZÓNA 2" },
+
+    { "id": "conf_erp", "type": "database", "label": "ERP & Due Diligence", "sublabel": "Zmluvy, ceny, spisy, whistleblowing", "pos": [530, 100], "size": [180, 64], "tag": "ZÓNA 3" },
+    { "id": "conf_vault", "type": "database", "label": "On-prem Git & CAD", "sublabel": "Šifrované zdrojové kódy a výkresy", "pos": [530, 260], "size": [180, 64], "tag": "ZÓNA 3" },
+
+    { "id": "class_nbu", "type": "security", "label": "Chránený Priestor NBÚ", "sublabel": "Air-gap, certifikovaný HW", "pos": [770, 100], "size": [180, 64], "tag": "ZÓNA 4" },
+    { "id": "class_registry", "type": "security", "label": "Vojenská Registratúra", "sublabel": "Evidencia utajovaných písomností", "pos": [770, 260], "size": [180, 64], "tag": "ZÓNA 4" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Zóna 1: Verejné prostredie (Schvaľovanie Export Control)", "wraps": ["pub_web", "pub_marketing"], "pad": 16 },
+    { "kind": "region", "label": "Zóna 2: Interné firemné IT (Spravované zariadenia + MFA)", "wraps": ["int_tenant", "int_idp"], "pad": 16 },
+    { "kind": "security-group", "label": "Zóna 3: Dôverné dáta (Need-to-Know & Zákaz sťahovania)", "wraps": ["conf_erp", "conf_vault"], "pad": 16 },
+    { "kind": "region", "label": "Zóna 4: Utajované skutočnosti (Zák. 215/2004 Z.z. – Air-gap)", "wraps": ["class_nbu", "class_registry"], "pad": 16 }
+  ],
+  "connections": [
+    { "id": "c1", "from": "pub_marketing", "to": "pub_web", "label": "publikovanie", "variant": "emphasis" },
+    { "id": "c2", "from": "int_idp", "to": "int_tenant", "label": "MFA SSO token", "variant": "security" },
+    { "id": "c3", "from": "int_idp", "to": "conf_erp", "label": "RBAC prístup", "variant": "security" },
+    { "id": "c4", "from": "int_idp", "to": "conf_vault", "label": "on-prem IAM", "variant": "security" },
+    { "id": "c5", "from": "class_nbu", "to": "class_registry", "label": "evidencia", "variant": "security" },
+    { "id": "c6", "from": "conf_vault", "to": "class_nbu", "label": "fyzický prenos (USB stop)", "variant": "dashed", "fromSide": "right", "toSide": "left" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Pravidlá Zóny 1 & 2 (Verejné a Interné)",
+      "items": [
+        "Žiadne technické parametre nesmú byť zverejnené bez predchádzajúceho posúdenia Export Controlom",
+        "Všetci zamestnanci pristupujú k internému tenantu výhradne cez spravované zariadenia s MFA"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Pravidlá Zóny 3: Dôverné dáta",
+      "items": [
+        "Externisti (freelanceri) majú zákaz sťahovať dôverné dáta na lokálne súkromné disky",
+        "Prístup sa prideľuje na základe schválenia vlastníka dát a CISO s povinnou recertifikáciou"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Pravidlá Zóny 4: Utajované skutočnosti (NBÚ)",
+      "items": [
+        "Kategorický zákaz akéhokoľvek bežného cloudu, e-mailu, necertifikovaného HW alebo verejných AI nástrojov",
+        "Vstup a prístup povolený len osobám s platnou bezpečnostnou previerkou príslušného stupňa"
+      ]
+    }
+  ]
+}

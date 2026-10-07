@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FC-01: Organizačná štruktúra & Governance Reporting",
+    "output": "diagrams/fc01-org-reporting.html",
+    "visual_preset": "blueprint",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "shareholders", "type": "backend", "label": "Valné zhromaždenie", "sublabel": "Akcionári & Stanovy", "pos": [60, 70], "size": [160, 60], "tag": "Najvyšší orgán" },
+    { "id": "supervisory_board", "type": "security", "label": "Dozorná rada (DR)", "sublabel": "Zákonný dohľad & kontrola", "pos": [300, 70], "size": [170, 60], "tag": "Kontrolný orgán" },
+    { "id": "board_ceo", "type": "backend", "label": "Predstavenstvo (CEO)", "sublabel": "Štatutárny výkonný orgán", "pos": [550, 70], "size": [170, 60], "tag": "Exekutíva" },
+    
+    { "id": "cco_role", "type": "security", "label": "Chief Compliance (CCO)", "sublabel": "Vojenské licencie & VETO", "pos": [60, 240], "size": [170, 64], "tag": "STOP-RIGHT" },
+    { "id": "ciso_role", "type": "security", "label": "CISO (Bezpečnosť IT)", "sublabel": "Oddelený od IT prevádzky", "pos": [300, 240], "size": [170, 64], "tag": "UZNESENIE U-06" },
+    { "id": "eco_legal", "type": "security", "label": "ECO & Legal & DPO", "sublabel": "Export control, zmluvy, GDPR", "pos": [550, 240], "size": [170, 64], "tag": "Súlad s právom" },
+
+    { "id": "rd_ops", "type": "frontend", "label": "R&D & AI Vývoj", "sublabel": "Modely, kód, UAV avionika", "pos": [60, 420], "size": [160, 60], "tag": "Vývoj" },
+    { "id": "prod_ops", "type": "frontend", "label": "Výroba & Dielňa", "sublabel": "Montáž UAV & letové skúšky", "pos": [260, 420], "size": [160, 60], "tag": "Hardware" },
+    { "id": "sales_ops", "type": "frontend", "label": "Obchod (Defense Sales)", "sublabel": "Zákazníci & tendery", "pos": [460, 420], "size": [160, 60], "tag": "Komerčné" },
+    { "id": "fin_ops", "type": "database", "label": "Financie & Nákup", "sublabel": "P2P, clá, BOM, cashflow", "pos": [660, 420], "size": [160, 60], "tag": "Prevádzka" },
+
+    { "id": "audit_ia", "type": "database", "label": "Interný audit (IA)", "sublabel": "3. Línia – nezávislé overenie", "pos": [810, 150], "size": [170, 64], "tag": "3. LÍNIA" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Orgány akciovej spoločnosti (Zákonný rámec)", "wraps": ["shareholders", "supervisory_board", "board_ceo"], "pad": 16 },
+    { "kind": "security-group", "label": "2. Línia: Gestori compliance a bezpečnosti (Priamy report)", "wraps": ["cco_role", "ciso_role", "eco_legal"], "pad": 16 },
+    { "kind": "security-group", "label": "1. Línia: Prevádzkové zložky (Vlastníci procesných rizík)", "wraps": ["rd_ops", "prod_ops", "sales_ops", "fin_ops"], "pad": 16 }
+  ],
+  "connections": [
+    { "id": "c1", "from": "shareholders", "to": "supervisory_board", "label": "voľba DR", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "c2", "from": "shareholders", "to": "board_ceo", "label": "menovanie", "variant": "emphasis" },
+    { "id": "c3", "from": "supervisory_board", "to": "board_ceo", "label": "dohľad", "variant": "security", "fromSide": "right", "toSide": "left", "labelDy": -16 },
+    { "id": "c4", "from": "board_ceo", "to": "cco_role", "label": "menovanie gestorov (U-02)", "variant": "security" },
+    { "id": "c5", "from": "board_ceo", "to": "sales_ops", "label": "exekutívne riadenie" },
+    { "id": "c6", "from": "cco_role", "to": "rd_ops", "label": "STOP-right & previerky", "variant": "security" },
+    { "id": "c7", "from": "ciso_role", "to": "prod_ops", "label": "kontrola perimetrov", "variant": "security" },
+    { "id": "c8", "from": "eco_legal", "to": "fin_ops", "label": "P2P & sankčný screening", "variant": "security" },
+    { "id": "c9", "from": "cco_role", "to": "supervisory_board", "label": "kvartálny report (U-03)", "variant": "emphasis" },
+    { "id": "c10", "from": "audit_ia", "to": "supervisory_board", "label": "priamy report DR", "variant": "emphasis" },
+    { "id": "c11", "from": "fin_ops", "to": "audit_ia", "label": "audit vzoriek", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Nezávislosť 2. línie & VETO Právo",
+      "items": [
+        "Gestori 2. línie reportujú priamo Predstavenstvu a Dozornej rade, nie komerčným zložkám",
+        "CCO, CISO a ECO vlastnia absolútne VETO právo na zastavenie rizikového obchodu alebo operácie"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Oddelenie CISO od IT prevádzky (U-06)",
+      "items": [
+        "CISO nie je podriadený správcovi IT infraštruktúry, čím sa eliminuje konflikt záujmov",
+        "Odvolanie ktoréhokoľvek gestora 2. línie musí Predstavenstvo vopred oznámiť Dozornej rade"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Funkcia 3. línie (Interný audit)",
+      "items": [
+        "Interný audítor vykonáva nezávislé testovanie účinnosti kontrolných mechanizmov 1. a 2. línie",
+        "Výsledky auditu sú predkladané priamo Dozornej rade spoločnosti"
+      ]
+    }
+  ]
+}

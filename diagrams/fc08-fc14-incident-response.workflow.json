@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-08 & FC-14: Incident Response & Kybernetická eskalácia (SIEM / NBÚ)",
+    "output": "diagrams/fc08-fc14-incident-response.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "detection_ops", "label": "Detekcia & IT Prevádzka (SIEM / SOC / Helpdesk)" },
+    { "id": "security_ciso", "label": "CISO & Bezpečnostný tím (Triáž, Izolácia, Forenzika)" },
+    { "id": "compliance_legal", "label": "Compliance, Legal & CEO (Hlásenie NBÚ, CSIRT, ÚOOÚ)" }
+  ],
+  "phases": [
+    { "id": "triage", "label": "1. Detekcia & Triáž P1–P4", "fromCol": 0, "toCol": 1 },
+    { "id": "containment", "label": "2. Izolácia & Forenzika", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "notification", "label": "3. Hlásenie NBÚ & Obnova", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "contain_group", "label": "Kritická reakcia & Zákonné notifikácie (72h)", "lane": "security_ciso", "fromCol": 1, "toCol": 4, "variant": "security" }
+  ],
+  "mainPath": ["alert_in", "triage_level", "system_isolation", "evidence_capture", "nbu_csirt_report", "recovery_lesson"],
+  "nodes": [
+    { "id": "alert_in", "lane": "detection_ops", "col": 0, "width": 140, "type": "frontend", "label": "Detekcia alertu", "sublabel": "SIEM / EDR / Hlásenie osoby" },
+    { "id": "triage_level", "lane": "security_ciso", "col": 1, "width": 140, "type": "security", "label": "Triáž závažnosti", "sublabel": "Kategorizácia P1–P4", "tag": "SLA 15m" },
+    { "id": "system_isolation", "lane": "security_ciso", "col": 2, "width": 140, "type": "security", "label": "Izolácia systémov", "sublabel": "Odpojenie siete, karanténa", "tag": "STOP ÚNIK" },
+    { "id": "evidence_capture", "lane": "security_ciso", "col": 3, "width": 140, "type": "database", "label": "Forenzné dôkazy", "sublabel": "Bitová kópia, logy, hash", "tag": "INTEGRITA" },
+    { "id": "nbu_csirt_report", "lane": "compliance_legal", "col": 4, "width": 140, "type": "backend", "label": "Hlásenie NBÚ", "sublabel": "Notifikácia CSIRT (do 72h)", "tag": "ZÁKON" },
+    { "id": "recovery_lesson", "lane": "detection_ops", "col": 5, "width": 140, "type": "backend", "label": "Obnova & Post-Mortem", "sublabel": "Zavedenie nápravných opatrení", "tag": "HOTOVO" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "alert_in", "to": "triage_level", "variant": "emphasis" },
+    { "id": "e2", "from": "triage_level", "to": "system_isolation", "label": "P1/P2 incident", "variant": "security" },
+    { "id": "e3", "from": "system_isolation", "to": "evidence_capture", "label": "izolované", "variant": "security" },
+    { "id": "e4", "from": "evidence_capture", "to": "nbu_csirt_report", "label": "správa CCO/CEO", "variant": "emphasis" },
+    { "id": "e5", "from": "nbu_csirt_report", "to": "recovery_lesson", "label": "autorizovaná obnova", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Klasifikácia P1 (Kritický kybernetický incident)",
+      "items": [
+        "P1 zahŕňa narušenie Zóny 3/4 (AI kód, utajované skutočnosti) alebo ransomware",
+        "Reakčný čas CISO a krízového tímu je do 15 minút s okamžitou aktiváciou havarijného plánu"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Zákonné lehoty a forenzná integrita",
+      "items": [
+        "Pri incidente s vplyvom na utajované skutočnosti sa okamžite upovedomuje NBÚ a vojenské spravodajstvo",
+        "Pred reštartom alebo vymazaním napadnutého servera je povinné vytvoriť certifikovaný forenzný obraz"
+      ]
+    }
+  ]
+}

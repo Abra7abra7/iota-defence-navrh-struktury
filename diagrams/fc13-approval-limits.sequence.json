@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "FC-13: Schvaľovacie limity L1–L4 & Podpisový poriadok",
+    "output": "diagrams/fc13-approval-limits.html",
+    "viewBox": [1080, 660],
+    "column_fit": "spread",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    { "id": "requester", "type": "frontend", "label": "Žiadateľ", "sublabel": "operatíva / R&D" },
+    { "id": "l1_mgr", "type": "backend", "label": "L1: Manažér", "sublabel": "do 1 000 €" },
+    { "id": "l2_fin", "type": "database", "label": "L2: Financie", "sublabel": "do 10 000 €" },
+    { "id": "l3_cco", "type": "security", "label": "L3: CCO", "sublabel": "do 50 000 € / riziká" },
+    { "id": "l4_board", "type": "backend", "label": "L4: Predstavenstvo", "sublabel": "nad 50 000 €" },
+    { "id": "bank", "type": "database", "label": "Banka (4-oči)", "sublabel": "autorizácia platieb" }
+  ],
+  "segments": [
+    { "from": 150, "to": 260, "label": "1. Vznik záväzku & L1/L2 Limity" },
+    { "from": 270, "to": 395, "label": "2. Rizikový Filter & L3/L4 Eskalácia" },
+    { "from": 405, "to": 520, "label": "3. Štatutárny Podpis & Banková Platba" }
+  ],
+  "messages": [
+    { "id": "m1", "from": "requester", "to": "l1_mgr", "y": 165, "label": "nákupná požiadavka v ERP", "variant": "default" },
+    { "id": "m2", "from": "l1_mgr", "to": "l2_fin", "y": 195, "label": "suma > 1 000 € -> eskalácia L2", "variant": "emphasis" },
+    { "id": "m3", "from": "l2_fin", "to": "l3_cco", "y": 225, "label": "suma > 10 000 € alebo rizikový prípad", "variant": "security" },
+    { "id": "m4", "from": "l3_cco", "to": "l4_board", "y": 290, "label": "suma > 50 000 € -> predloženie Boardu", "variant": "security" },
+    { "id": "m5", "from": "l4_board", "to": "l3_cco", "y": 330, "label": "uznesenie: SCHVÁLENÉ", "variant": "return" },
+    { "id": "m6", "from": "l3_cco", "to": "l2_fin", "y": 365, "label": "compliance schválenie udelené", "variant": "return" },
+    { "id": "m7", "from": "l4_board", "to": "requester", "y": 420, "label": "podpis zmluvy navonok (štatutár)", "variant": "emphasis" },
+    { "id": "m8", "from": "l2_fin", "to": "bank", "y": 450, "label": "zadanie platby (zadávateľ)", "variant": "emphasis" },
+    { "id": "m9", "from": "l4_board", "to": "bank", "y": 480, "label": "autorizácia platby (4-oči)", "variant": "security" },
+    { "id": "m10", "from": "bank", "to": "l2_fin", "y": 510, "label": "platba zrealizovaná (výpis)", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "requester", "from": 165, "to": 425, "type": "frontend" },
+    { "participant": "l1_mgr", "from": 165, "to": 200, "type": "backend" },
+    { "participant": "l2_fin", "from": 195, "to": 515, "type": "database" },
+    { "participant": "l3_cco", "from": 225, "to": 370, "type": "security" },
+    { "participant": "l4_board", "from": 290, "to": 485, "type": "backend" },
+    { "participant": "bank", "from": 450, "to": 515, "type": "database" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Kategorický zákaz delenia nákupov",
+      "items": [
+        "Umelé delenie zákaziek s cieľom obísť schvaľovacie limity (L1–L4) je hrubým porušením pracovnej disciplíny",
+        "Hodnota sa posudzuje kumulatívne za 12 po sebe nasledujúcich mesiacov"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Rizikový filter CCO (Mandatórne L3)",
+      "items": [
+        "Obchody s verejnými funkcionármi, agentmi, rizikovými krajinami alebo pri konflikte záujmov idú vždy na L3 (CCO) bez ohľadu na sumu",
+        "Veto CCO môže prelomiť výhradne celé Predstavenstvo s povinným zápisom a notifikáciou Dozornej rade"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Pravidlo 4 očí v banke",
+      "items": [
+        "Každá odchádzajúca platba vyžaduje oddelené roly: osoba, ktorá platbu v banke zadá, ju nesmie autorizovať",
+        "Platí bez výnimky aj pri sumách do 1 000 €"
+      ]
+    }
+  ]
+}

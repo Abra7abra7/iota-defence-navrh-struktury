@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "72f45673-4e5e-4cd8-90e0-11c906e350e5",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc07-due-diligence.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc07-due-diligence.html",
+  "specification": {
+    "sha256": "1b82420f3dc07638d6eb9589d0c9d67917ac5e4cf7f3e3f6eed8655492d6081d",
+    "bytes": 3993
+  },
+  "artifact": {
+    "sha256": "db544911859a8e4fb6f80bae3f209f75cb785547b81fce1c8624be45413f3fe0",
+    "bytes": 760106
+  }
+}

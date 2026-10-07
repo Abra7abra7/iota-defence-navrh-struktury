@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-07 & FC-06: Due Diligence partnera & Pravidlá sprostredkovateľov",
+    "output": "diagrams/fc07-due-diligence.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "business", "label": "Obchod & Nákup (Iniciátor spolupráce)" },
+    { "id": "compliance", "label": "Compliance Officer (Sankčný screening, UBO, VETO)" },
+    { "id": "legal_fin", "label": "Legal & Financie (Zmluvné doložky & IBAN overenie)" }
+  ],
+  "phases": [
+    { "id": "intake", "label": "1. Zápis & Sankčný screening", "fromCol": 0, "toCol": 1 },
+    { "id": "evaluation", "label": "2. Previerka UBO & Rozhodnutie", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "contract_activation", "label": "3. ABAC Zmluva & Aktivácia", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "vetting_gate", "label": "Mandatórny Due Diligence screening & VETO CCO", "lane": "compliance", "fromCol": 1, "toCol": 3, "variant": "security" }
+  ],
+  "mainPath": ["partner_init", "sanctions_screen", "ubo_vetting", "cco_decision", "contract_clauses", "partner_approved"],
+  "nodes": [
+    { "id": "partner_init", "lane": "business", "col": 0, "width": 140, "type": "frontend", "label": "Návrh partnera", "sublabel": "Identifikácia a dôvod" },
+    { "id": "sanctions_screen", "lane": "compliance", "col": 1, "width": 140, "type": "security", "label": "Sankčný screening", "sublabel": "EU, OFAC, OSN, embargo", "tag": "FILTER 1" },
+    { "id": "ubo_vetting", "lane": "compliance", "col": 2, "width": 140, "type": "security", "label": "UBO & Rizikové skóre", "sublabel": "Konečný užívateľ výhod", "tag": "BRÁNA" },
+    { "id": "partner_reject", "lane": "business", "col": 2, "width": 140, "type": "external", "label": "ABSOLÚTNE VETO", "sublabel": "Zákaz spolupráce", "tag": "STOP" },
+    { "id": "cco_decision", "lane": "compliance", "col": 3, "width": 140, "type": "security", "label": "Rozhodnutie CCO", "sublabel": "Autorizácia partnera" },
+    { "id": "contract_clauses", "lane": "legal_fin", "col": 4, "width": 140, "type": "backend", "label": "ABAC Zmluva & IBAN", "sublabel": "Protikorupčná doložka & audit", "tag": "ZMLUVA" },
+    { "id": "partner_approved", "lane": "business", "col": 5, "width": 140, "type": "backend", "label": "Stav: SCHVÁLENÝ", "sublabel": "Zápis do registra partnerov", "tag": "AKTÍVNY" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "partner_init", "to": "sanctions_screen", "variant": "emphasis" },
+    { "id": "e2", "from": "sanctions_screen", "to": "ubo_vetting", "label": "čisté zoznamy", "variant": "emphasis" },
+    { "id": "e3", "from": "ubo_vetting", "to": "partner_reject", "label": "riziko / stop", "variant": "security", "role": "error" },
+    { "id": "e4", "from": "ubo_vetting", "to": "cco_decision", "label": "akceptovateľné", "variant": "emphasis" },
+    { "id": "e5", "from": "cco_decision", "to": "contract_clauses", "label": "podmienky DD", "variant": "security" },
+    { "id": "e6", "from": "contract_clauses", "to": "partner_approved", "label": "podpis & overenie", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Pravidlá pre sprostredkovateľov a agentov (FC-06)",
+      "items": [
+        "Platba agentovi je povolená len ak je partner v stave SCHVÁLENÝ a existuje preukázateľná správa o výkone",
+        "Úhrada je možná výhradne bezhotovostne na IBAN agenta v krajine jeho sídla – zákaz platieb 3. stranám a hotovosti"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Protikorupčné doložky (ABAC)",
+      "items": [
+        "Každá zmluva musí obsahovať právo Delta/IOTA Defence vykonať audit a okamžite odstúpiť pri porušení etiky",
+        "Pri zistení verejného funkcionára v pozadí partnera je vyžadovaný súhlas celej Dozornej rady"
+      ]
+    }
+  ]
+}

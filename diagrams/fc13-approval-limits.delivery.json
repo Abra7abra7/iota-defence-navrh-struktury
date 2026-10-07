@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "44441af6-abe2-4b31-9f3c-71518d148d43",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc13-approval-limits.sequence.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc13-approval-limits.html",
+  "specification": {
+    "sha256": "e05297f1521d8badc2071e7adce4c1eddc72b2f8939f86963cdfc8e4df2115a3",
+    "bytes": 4052
+  },
+  "artifact": {
+    "sha256": "4b3c4a076bc2f7b7c8e575454698bdaaa2378d6513ddd0efdb714206ac429c50",
+    "bytes": 759289
+  }
+}

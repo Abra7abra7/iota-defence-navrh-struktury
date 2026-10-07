@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "203e4c5e-631b-478c-b28d-c0df30e2ba48",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc10-fc12-ethics-governance.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc10-fc12-ethics-governance.html",
+  "specification": {
+    "sha256": "5655b6d98e679e6d4237bf6d3df6953b1afcc3c3d725fa8e196a1827a0f65ee6",
+    "bytes": 4571
+  },
+  "artifact": {
+    "sha256": "429face3fe6363c4afe25e55c3abe659fbfcc44dee3d83f0dcf26b464856e21b",
+    "bytes": 760880
+  }
+}

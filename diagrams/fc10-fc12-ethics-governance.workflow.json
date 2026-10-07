@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-10, FC-11 & FC-12: Integrita, Whistleblowing & Konflikt záujmov",
+    "output": "diagrams/fc10-fc12-ethics-governance.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "reporter_staff", "label": "Oznamovateľ & Zamestnanci (Podnet, dar, konflikt)" },
+    { "id": "compliance_officer", "label": "Compliance Officer (Zodpovedná osoba, vyšetrovanie)" },
+    { "id": "board_dr_supervisory", "label": "Dozorná rada & Predstavenstvo (Eskalácia, štatutári)" }
+  ],
+  "phases": [
+    { "id": "notification", "label": "1. Prijatie podnetu", "fromCol": 0, "toCol": 1 },
+    { "id": "investigation", "label": "2. Nezávislé preverenie", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "resolution", "label": "3. Opatrenia & Register", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "integrity_gate", "label": "Zákonná ochrana oznamovateľov (Zák. 54/2019 Z. z.)", "lane": "compliance_officer", "fromCol": 1, "toCol": 4, "variant": "security" }
+  ],
+  "mainPath": ["notice_in", "initial_review", "investigation_run", "board_dr_decision", "remedial_action", "register_archive"],
+  "nodes": [
+    { "id": "notice_in", "lane": "reporter_staff", "col": 0, "width": 140, "type": "frontend", "label": "Podnet / COI / Dar", "sublabel": "Hlásenie cez schránku alebo mail" },
+    { "id": "initial_review", "lane": "compliance_officer", "col": 1, "width": 140, "type": "security", "label": "Potvrdenie do 7 dní", "sublabel": "Zodpovedná osoba zaeviduje", "tag": "LEHOTA 7D" },
+    { "id": "investigation_run", "lane": "compliance_officer", "col": 2, "width": 140, "type": "security", "label": "Preverenie do 90 dní", "sublabel": "Objasnenie bez konfliktu záujmov", "tag": "PREVERENIE" },
+    { "id": "direct_dr_whistle", "lane": "reporter_staff", "col": 2, "width": 140, "type": "external", "label": "Podnet na vedenie", "sublabel": "Priama linka na predsedu DR", "tag": "ESKALÁCIA DR" },
+    { "id": "board_dr_decision", "lane": "board_dr_supervisory", "col": 3, "width": 140, "type": "backend", "label": "Stanovisko DR", "sublabel": "Ochrana spoločnosti a etiky", "tag": "DOHĽAD" },
+    { "id": "remedial_action", "lane": "compliance_officer", "col": 4, "width": 140, "type": "security", "label": "Nápravné opatrenie", "sublabel": "Vylúčenie alebo 4-oči", "tag": "OPATRENIE" },
+    { "id": "register_archive", "lane": "compliance_officer", "col": 5, "width": 140, "type": "database", "label": "Zápis & Ochrana", "sublabel": "Evidencia darov / zákaz odvety", "tag": "ARCHÍV" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "notice_in", "to": "initial_review", "variant": "emphasis" },
+    { "id": "e2", "from": "notice_in", "to": "direct_dr_whistle", "label": "týka sa Boardu", "variant": "security", "role": "error" },
+    { "id": "e3", "from": "initial_review", "to": "investigation_run", "label": "štandardný podnet", "variant": "emphasis" },
+    { "id": "e4", "from": "investigation_run", "to": "board_dr_decision", "label": "zistené pochybenie", "variant": "security" },
+    { "id": "e5", "from": "board_dr_decision", "to": "remedial_action", "label": "nariadenie", "variant": "emphasis" },
+    { "id": "e6", "from": "remedial_action", "to": "register_archive", "label": "uzavretie spisu", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Prísny zákaz odvetných opatrení (Whistleblowing)",
+      "items": [
+        "Oznamovateľ požíva plnú zákonnú ochranu podľa zákona č. 54/2019 Z. z. – zákaz výpovede, šikany či znevýhodnenia",
+        "Podnet je možné podať anonymne; totožnosť oznamovateľa je chránená trestnoprávnou sankciou"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Register darov & Pravidlá ABAC (FC-11)",
+      "items": [
+        "Súkromné dary do 500 € sa zapisujú do Registra darov do 5 dní; dary nad 500 € vyžadujú predchádzajúci súhlas CCO",
+        "Akékoľvek dary alebo pohostenia verejným činiteľom podliehajú predchádzajúcemu schváleniu CCO bez ohľadu na sumu"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Riešenie konfliktu záujmov (FC-12)",
+      "items": [
+        "Každý pracovník je povinný bezodkladne nahlásiť skutočný alebo potenciálny konflikt záujmov",
+        "Opatrenia CCO zahŕňajú vylúčenie z rozhodovania, zavedenie 4 očí alebo zastavenie transakcie"
+      ]
+    }
+  ]
+}

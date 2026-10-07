@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Proces 1: Obchodno-licenčný tok (Lead-to-Contract)",
+    "output": "diagrams/lead-to-contract.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "sales", "label": "Obchodník (Sales)" },
+    { "id": "compliance", "label": "Compliance Officer & Bezpečnosť" },
+    { "id": "finance_ceo", "label": "Vedenie & Financie (CEO / Účtovník)" }
+  ],
+  "phases": [
+    { "id": "intake", "label": "1. Dopyt a Vetting", "fromCol": 0, "toCol": 1 },
+    { "id": "evaluation", "label": "2. Previerka & Rozhodnutie", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "closure", "label": "3. Cenotvorba & Kontrakt", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "compliance_gate", "label": "Mandatórna Compliance Brána (VETO Právo)", "lane": "compliance", "fromCol": 1, "toCol": 2, "variant": "security" }
+  ],
+  "mainPath": ["lead_in", "sanction_check", "license_ok", "costing", "ceo_review", "deal_closed"],
+  "nodes": [
+    { "id": "lead_in", "lane": "sales", "col": 0, "width": 136, "type": "frontend", "label": "Dopyt / Tender", "sublabel": "identifikácia klienta" },
+    { "id": "sanction_check", "lane": "compliance", "col": 1, "width": 136, "type": "security", "label": "Sankčný Vetting", "sublabel": "EUC, OFAC, MH SR", "tag": "BRÁNA 1" },
+    { "id": "veto_reject", "lane": "compliance", "col": 2, "width": 136, "type": "external", "label": "ABSOLÚTNE VETO", "sublabel": "zákaz obchodu", "tag": "STOP" },
+    { "id": "license_ok", "lane": "compliance", "col": 3, "width": 136, "type": "security", "label": "Licenčná Zelená", "sublabel": "súhlas k ponuke" },
+    { "id": "costing", "lane": "finance_ceo", "col": 3, "width": 136, "type": "database", "label": "Kalkulácia Ceny", "sublabel": "Účtovník: rozpočet" },
+    { "id": "ceo_review", "lane": "finance_ceo", "col": 4, "width": 136, "type": "backend", "label": "Schválenie CEO", "sublabel": "autorizácia ponuky" },
+    { "id": "deal_closed", "lane": "finance_ceo", "col": 5, "width": 136, "type": "backend", "label": "Podpis Zmluvy", "sublabel": "Štatutár & Klient", "tag": "KONTRAKT" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "lead_in", "to": "sanction_check", "variant": "security" },
+    { "id": "e2", "from": "sanction_check", "to": "veto_reject", "label": "stop", "variant": "security", "role": "error" },
+    { "id": "e3", "from": "sanction_check", "to": "license_ok", "label": "schválené", "variant": "emphasis" },
+    { "id": "e4", "from": "license_ok", "to": "costing", "variant": "emphasis" },
+    { "id": "e5", "from": "costing", "to": "ceo_review", "variant": "emphasis" },
+    { "id": "e6", "from": "ceo_review", "to": "deal_closed", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Absolútne Veto Compliance",
+      "items": [
+        "Compliance Officer zastavuje obchod bez možnosti prehlasovania zo strany CEO",
+        "Žiadna špecifikácia neodchádza pred sankčným preverením koncového používateľa"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Need-to-Know & Zmluva",
+      "items": [
+        "Obchodník nevidí AI kód ani CAD výkresy, iba schválené parametre ponuky",
+        "Podpis zmluvy je podmienený platnou licenciou na vojenský materiál"
+      ]
+    }
+  ]
+}

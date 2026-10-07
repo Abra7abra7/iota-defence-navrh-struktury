@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "6f1f55c5-251e-4b2b-989b-9100d0b4a9ec",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc16-ai-agent-decision.sequence.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc16-ai-agent-decision.html",
+  "specification": {
+    "sha256": "d33593591098df1d9dce7fe569625b6526bbb398c2935678ca71c0b798e7e958",
+    "bytes": 4323
+  },
+  "artifact": {
+    "sha256": "2e4170ce84011168c77c64c9b44c1e9b474cbc01358863785ff68236dac6ec68",
+    "bytes": 762064
+  }
+}

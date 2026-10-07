@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "95b5ad87-4e96-4d07-a30c-c7a74f9efed7",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc05-data-zones.architecture.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc05-data-zones.html",
+  "specification": {
+    "sha256": "f9bdd6f3f8262f386bd267cad084441ebf362977a12ac76c3b2d2b7b79056d25",
+    "bytes": 4190
+  },
+  "artifact": {
+    "sha256": "94d314b1df9ab8975457cf4801de3605d19aad9559e47f8715a5def34e0f14a8",
+    "bytes": 764936
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "5feb2765-a26c-4551-a9f7-7b7799c1c2f4",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\lead-to-contract.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\lead-to-contract.html",
+  "specification": {
+    "sha256": "be485b2d48ed6715d8132e889825cebaed554703e36700cefbd842f60144cf9c",
+    "bytes": 3442
+  },
+  "artifact": {
+    "sha256": "c8148fd39cdb7d0736564eb003106e2ebe5b932b00c260789eee3ffb5ca34073",
+    "bytes": 756980
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "3066c5a8-6d58-401d-924a-bdf468835fd0",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc04-p2p-procurement.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc04-p2p-procurement.html",
+  "specification": {
+    "sha256": "e505c49a137c34f01bc8147bc4155f3441da8f2cc19d46f3550304d75dde1685",
+    "bytes": 3446
+  },
+  "artifact": {
+    "sha256": "b2967d9039f8183e3749c8edf379c5af028c8a5f55cb7fccd5c363d2d890eebe",
+    "bytes": 756817
+  }
+}

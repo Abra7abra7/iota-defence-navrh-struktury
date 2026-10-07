@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FC-02: Model troch línií ochrany (Three Lines of Defense)",
+    "output": "diagrams/fc02-three-lines-of-defense.html",
+    "visual_preset": "blueprint",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "board_dr", "type": "backend", "label": "Predstavenstvo & Dozorná rada", "sublabel": "Vrcholový dohľad, schvaľovanie rámca a politík", "pos": [310, 60], "size": [340, 64], "tag": "GOVERNANCE" },
+    
+    { "id": "legal_dpo", "type": "security", "label": "Legal & DPO", "sublabel": "Právny rámec, GDPR a zmluvné garancie", "pos": [110, 200], "size": [170, 64], "tag": "2. LÍNIA" },
+    { "id": "cco_eco", "type": "security", "label": "CCO & ECO Gestor", "sublabel": "Vojenské licencie, sankcie, MH SR & VETO", "pos": [310, 200], "size": [170, 64], "tag": "STOP-RIGHT" },
+    { "id": "ciso_sec", "type": "security", "label": "CISO & Bezpečnosť", "sublabel": "NBÚ ochrana, utajované skutočnosti, cyber", "pos": [510, 200], "size": [170, 64], "tag": "BEZPEČNOSŤ" },
+
+    { "id": "audit_third", "type": "database", "label": "3. Línia: Interný audit", "sublabel": "Nezávislé testovanie kontrol pre DR", "pos": [740, 200], "size": [180, 64], "tag": "AUDIT DR" },
+
+    { "id": "sales_proc", "type": "frontend", "label": "Obchod & Nákup (P2P)", "sublabel": "Zákazníci, dodávatelia, tendery", "pos": [110, 370], "size": [170, 64], "tag": "1. LÍNIA" },
+    { "id": "uav_prod", "type": "frontend", "label": "Výroba & Dielňa UAV", "sublabel": "Montáž dronov, hardware, testy", "pos": [310, 370], "size": [170, 64], "tag": "1. LÍNIA" },
+    { "id": "rd_ai", "type": "frontend", "label": "R&D & AI Autonómia", "sublabel": "Algoritmy navádzania, IP ochrana", "pos": [510, 370], "size": [170, 64], "tag": "1. LÍNIA" },
+    { "id": "fin_customs", "type": "database", "label": "Financie & Colnica", "sublabel": "Platby, clá, Dual-Use BOM kontrola", "pos": [710, 370], "size": [170, 64], "tag": "1. LÍNIA" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "2. Línia: Nezávislý dohľad, politiky a STOP-right", "wraps": ["legal_dpo", "cco_eco", "ciso_sec"], "pad": 16 },
+    { "kind": "security-group", "label": "1. Línia: Prevádzkové zložky – vlastníci denných procesných rizík", "wraps": ["sales_proc", "uav_prod", "rd_ai", "fin_customs"], "pad": 16 }
+  ],
+  "connections": [
+    { "id": "c1", "from": "board_dr", "to": "cco_eco", "label": "mandát a politiky", "variant": "security" },
+    { "id": "c2", "from": "board_dr", "to": "audit_third", "label": "zadanie auditu", "variant": "emphasis" },
+    { "id": "c3", "from": "cco_eco", "to": "sales_proc", "label": "STOP-right vetting", "variant": "security" },
+    { "id": "c4", "from": "ciso_sec", "to": "rd_ai", "label": "izolácia kódu & kľúče", "variant": "security" },
+    { "id": "c5", "from": "legal_dpo", "to": "sales_proc", "label": "zmluvné doložky", "variant": "dashed" },
+    { "id": "c6", "from": "ciso_sec", "to": "uav_prod", "label": "fyzický perimeter", "variant": "security" },
+    { "id": "c7", "from": "ciso_sec", "to": "fin_customs", "label": "kontrola platieb & IAM", "variant": "security" },
+    { "id": "c8", "from": "audit_third", "to": "board_dr", "label": "správa auditu pre DR", "variant": "emphasis", "fromSide": "top", "toSide": "right" },
+    { "id": "c9", "from": "cco_eco", "to": "board_dr", "label": "kvartálna eskalácia", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Princíp striktného oddelenia",
+      "items": [
+        "Žiadna osoba nesmie kumulovať rolu 1. línie (výkon obchodu/výroby) a 2. línie (compliance/bezpečnosť)",
+        "Gestor 2. línie nesmie byť odmeňovaný na základe obchodných výsledkov ani podliehať tlaku na predaj"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Právo okamžitého zastavenia (STOP-Right)",
+      "items": [
+        "2. línia má právo kedykoľvek zablokovať dodávku, zmluvu, platbu alebo export pri podozrení na porušenie predpisov",
+        "Veto 2. línie nemožno prelomiť na úrovni operatívy"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Nezávislé testovanie 3. línie",
+      "items": [
+        "Interný audítor priamo preveruje účinnosť kontrol 1. aj 2. línie",
+        "Audit podlieha priamo Dozornej rade a má neobmedzený prístup k dokumentácii"
+      ]
+    }
+  ]
+}

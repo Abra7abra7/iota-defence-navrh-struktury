@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4065d875-591f-44d3-a61a-4344e6ba38ad",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc15-bcp-dr.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc15-bcp-dr.html",
+  "specification": {
+    "sha256": "00a5719fe26b65a901ae2a77c55105152c84868cee765d6391992d85209a5a8c",
+    "bytes": 3780
+  },
+  "artifact": {
+    "sha256": "84c1f31abe1f3b09747f234f358ff6acb82ca5d8e9f41ca4da5aac703e5700ad",
+    "bytes": 757836
+  }
+}

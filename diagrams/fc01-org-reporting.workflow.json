@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-01: Organizačná štruktúra & Governance Reporting",
+    "output": "diagrams/fc01-org-reporting.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "governance", "label": "Orgány spoločnosti (VZ / DR / Predstavenstvo)" },
+    { "id": "second_line", "label": "2. Línia: Compliance, Bezpečnosť & Právne (CCO / CISO / ECO / Legal)" },
+    { "id": "first_line", "label": "1. Línia: Operatíva & Výkon (Sales, R&D, Výroba, Financie)" },
+    { "id": "third_line", "label": "3. Línia: Nezávislý audit (Interný audítor)" }
+  ],
+  "phases": [
+    { "id": "mandate", "label": "1. Mandát a stanovy", "fromCol": 0, "toCol": 1 },
+    { "id": "oversight", "label": "2. Nezávislý dohľad a prevádzka", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "assurance", "label": "3. Kvartálny reporting & Audit", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "board_oversight", "label": "Vrcholové riadenie a zákonný dohľad", "lane": "governance", "fromCol": 0, "toCol": 4, "variant": "security" }
+  ],
+  "mainPath": ["shareholders", "supervisory_board", "board_exec", "second_line_oversight", "first_line_ops", "audit_report", "board_quarterly"],
+  "nodes": [
+    { "id": "shareholders", "lane": "governance", "col": 0, "width": 140, "type": "backend", "label": "Valné zhromaždenie", "sublabel": "Akcionári & Stanovy", "tag": "VZ" },
+    { "id": "supervisory_board", "lane": "governance", "col": 1, "width": 140, "type": "security", "label": "Dozorná rada (DR)", "sublabel": "Dohľad nad predstavenstvom", "tag": "KONTROLA" },
+    { "id": "board_exec", "lane": "governance", "col": 2, "width": 140, "type": "backend", "label": "Predstavenstvo (CEO)", "sublabel": "Štatutárny orgán spoločnosti", "tag": "EXEKUTÍVA" },
+    { "id": "second_line_oversight", "lane": "second_line", "col": 2, "width": 140, "type": "security", "label": "2. Línia: Gestori", "sublabel": "CCO, CISO, ECO, Legal, DPO", "tag": "VETO PRÁVO" },
+    { "id": "first_line_ops", "lane": "first_line", "col": 3, "width": 140, "type": "frontend", "label": "1. Línia: Prevádzka", "sublabel": "R&D, Sales, Výroba, Financie", "tag": "VLASTNÍK RIZÍK" },
+    { "id": "ciso_separation", "lane": "second_line", "col": 3, "width": 140, "type": "security", "label": "Oddelený CISO", "sublabel": "Nezávislý od IT prevádzky (U-06)", "tag": "KONTROLA IT" },
+    { "id": "audit_report", "lane": "third_line", "col": 4, "width": 140, "type": "database", "label": "3. Línia: Interný audit", "sublabel": "Nezávislé testovanie účinnosti", "tag": "AUDIT" },
+    { "id": "board_quarterly", "lane": "governance", "col": 5, "width": 140, "type": "backend", "label": "Kvartálny report", "sublabel": "Predstavenstvo & Dozorná rada", "tag": "REPORT U-03" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "shareholders", "to": "supervisory_board", "label": "voľba orgánu", "variant": "emphasis" },
+    { "id": "e2", "from": "shareholders", "to": "board_exec", "label": "menovanie", "variant": "emphasis" },
+    { "id": "e3", "from": "board_exec", "to": "second_line_oversight", "label": "menovanie gestorov (U-02)", "variant": "security" },
+    { "id": "e4", "from": "board_exec", "to": "first_line_ops", "label": "exekutívne riadenie", "variant": "default" },
+    { "id": "e5", "from": "second_line_oversight", "to": "ciso_separation", "variant": "security" },
+    { "id": "e6", "from": "second_line_oversight", "to": "first_line_ops", "label": "monitoring & STOP-right", "variant": "security", "role": "error" },
+    { "id": "e7", "from": "first_line_ops", "to": "audit_report", "label": "testovanie procesov", "variant": "dashed" },
+    { "id": "e8", "from": "audit_report", "to": "supervisory_board", "label": "priamy report DR", "variant": "emphasis" },
+    { "id": "e9", "from": "second_line_oversight", "to": "board_quarterly", "label": "kvartálna správa", "variant": "emphasis" },
+    { "id": "e10", "from": "board_quarterly", "to": "supervisory_board", "label": "predloženie DR", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Nezávislosť 2. línie & VETO Právo",
+      "items": [
+        "Gestori 2. línie (CCO, CISO, ECO) reportujú priamo Predstavenstvu a Dozornej rade",
+        "Nesmú podliehať komerčným zložkám (Obchod, Nákup, Financie) a disponujú právom zastaviť operáciu"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Oddelenie rolí CISO & IT (U-06)",
+      "items": [
+        "CISO je striktne oddelený od IT prevádzky, aby nevznikal konflikt záujmov pri kontrole prístupov",
+        "Odvolanie CCO/CISO/ECO musí Predstavenstvo vopred oznámiť Dozornej rade"
+      ]
+    }
+  ]
+}

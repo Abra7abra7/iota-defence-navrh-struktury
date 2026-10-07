@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4b32cbce-5444-4360-b31b-f5ef8e42a618",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc08-fc14-incident-response.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc08-fc14-incident-response.html",
+  "specification": {
+    "sha256": "57abf7d4ff1f59ab2de16b4da05b68bc771f0beaab684d6575f0857f6d062a4e",
+    "bytes": 3736
+  },
+  "artifact": {
+    "sha256": "085db555501f0f10741b964dacb2ff93d5c15fc036892c346a74b336749a9ddb",
+    "bytes": 757541
+  }
+}

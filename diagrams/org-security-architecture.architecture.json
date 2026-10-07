@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Organizačná & Bezpečnostná Architektúra Delta Defence",
+    "output": "diagrams/org-security-architecture.html",
+    "visual_preset": "blueprint",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "client_mod", "type": "external", "label": "Zákazník / MO SR", "sublabel": "tender & požiadavky", "pos": [40, 300], "size": [130, 60] },
+    { "id": "sales_role", "type": "frontend", "label": "Obchodník (Sales)", "sublabel": "BD & komunikácia", "pos": [230, 300], "size": [140, 60], "tag": "obchodné tajomstvo" },
+    { "id": "compliance_role", "type": "security", "label": "Compliance Officer", "sublabel": "NBÚ, MH SR, export control", "pos": [430, 140], "size": [150, 64], "tag": "ABSOLÚTNE VETO" },
+    { "id": "ceo_role", "type": "backend", "label": "CEO (Štatutár)", "sublabel": "strategické riadenie", "pos": [430, 300], "size": [150, 60], "tag": "plná zodpovednosť" },
+    { "id": "finance_role", "type": "database", "label": "Účtovník (Financie)", "sublabel": "BOM faktúry & colné konanie", "pos": [430, 460], "size": [150, 60], "tag": "finančné toky" },
+    { "id": "rd_dev", "type": "cloud", "label": "Externý Programátor", "sublabel": "AI autonómia & navádzanie", "pos": [680, 140], "size": [160, 64], "tag": "IP transfer nutný" },
+    { "id": "secure_vault", "type": "database", "label": "Chránené Úložisko", "sublabel": "on-prem kód & CAD výkresy", "pos": [680, 300], "size": [160, 60], "tag": "utajované skutočnosti" },
+    { "id": "uav_assembly", "type": "backend", "label": "Dielňa & Letové Skúšky", "sublabel": "montáž UAV & flashovanie AI", "pos": [680, 460], "size": [160, 60], "tag": "výrobný perimeter" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Chránený Priestor NBÚ & R&D Izolácia", "wraps": ["compliance_role", "rd_dev", "secure_vault", "uav_assembly"], "pad": 18 },
+    { "kind": "security-group", "label": "Komerčno-Administratívna Zóna", "wraps": ["sales_role", "finance_role"], "pad": 16 }
+  ],
+  "connections": [
+    { "id": "c1", "from": "client_mod", "to": "sales_role", "label": "dopyt", "variant": "emphasis" },
+    { "id": "c2", "from": "sales_role", "to": "compliance_role", "label": "EUC vetting", "variant": "security" },
+    { "id": "c3", "from": "compliance_role", "to": "ceo_role", "label": "licenčná správa", "variant": "security" },
+    { "id": "c4", "from": "sales_role", "to": "ceo_role", "label": "ponuka" },
+    { "id": "c5", "from": "ceo_role", "to": "finance_role", "label": "rozpočet" },
+    { "id": "c6", "from": "compliance_role", "to": "rd_dev", "label": "IP zmluva & NDA", "variant": "security" },
+    { "id": "c7", "from": "rd_dev", "to": "secure_vault", "label": "git push / modely", "variant": "security" },
+    { "id": "c8", "from": "ceo_role", "to": "secure_vault", "label": "autorizácia stavby", "variant": "emphasis" },
+    { "id": "c9", "from": "secure_vault", "to": "uav_assembly", "label": "firmware deploy", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Need-to-Know Separácia",
+      "items": [
+        "Obchodník a Účtovník nemajú prístup do Chráneného priestoru R&D ani k AI modelom",
+        "Externý vývojár nemá prístup k finančným maržiam, zmluvám ani koncovým zákazníkom"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Právomoci Compliance",
+      "items": [
+        "Vykonáva funkciu Bezpečnostného zamestnanca pre styk s NBÚ a MH SR",
+        "Má právo kedykoľvek zastaviť vývoj alebo export pri bezpečnostnom riziku"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Fyzická a Digitálna Bezpečnosť",
+      "items": [
+        "Zdrojový kód UAV a autonómnych systémov je v on-prem šifrovanom trezore",
+        "Montáž a testovanie prebieha v režime kontrolovaného vstupu osôb"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-09: Sankcie, Licencie MH SR & Exportná kontrola (EUC / Dual-Use)",
+    "output": "diagrams/fc09-sanctions-export-control.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "sales_exp", "label": "Obchod & Expedícia (Export Sales / Sklad / Logistika)" },
+    { "id": "compliance_eco", "label": "Export Control Officer & CCO (Licencovanie, EUC, VETO)" },
+    { "id": "gov_customs", "label": "Štátne orgány & Colnica (MH SR / Finančná správa / MO SR)" }
+  ],
+  "phases": [
+    { "id": "classification", "label": "1. Zatriedenie položky", "fromCol": 0, "toCol": 1 },
+    { "id": "licensing_euc", "label": "2. Previerka EUC & Licencia", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "customs_clear", "label": "3. Inšpekcia & Colný vývoz", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "licensing_gate", "label": "Mandatórne licenčné konanie MH SR & VETO CCO", "lane": "compliance_eco", "fromCol": 1, "toCol": 4, "variant": "security" }
+  ],
+  "mainPath": ["export_req", "item_classification", "euc_verification", "mhsr_license", "pre_shipment_check", "customs_dispatched"],
+  "nodes": [
+    { "id": "export_req", "lane": "sales_exp", "col": 0, "width": 140, "type": "frontend", "label": "Exportný zámer", "sublabel": "Destinácia & špecifikácia UAV" },
+    { "id": "item_classification", "lane": "compliance_eco", "col": 1, "width": 140, "type": "security", "label": "Zatriedenie tovaru", "sublabel": "Vojenský materiál vs Dual-Use", "tag": "KONTROLA" },
+    { "id": "export_veto", "lane": "sales_exp", "col": 2, "width": 140, "type": "external", "label": "ZÁKAZ EXPORTU", "sublabel": "Sankčné embargo / Riziko", "tag": "VETO" },
+    { "id": "euc_verification", "lane": "compliance_eco", "col": 2, "width": 140, "type": "security", "label": "Previerka EUC", "sublabel": "Originál End-User certifikátu", "tag": "BRÁNA" },
+    { "id": "mhsr_license", "lane": "gov_customs", "col": 3, "width": 140, "type": "backend", "label": "Licencia MH SR", "sublabel": "Oficiálne povolenie na vývoz", "tag": "LICENCIA" },
+    { "id": "pre_shipment_check", "lane": "compliance_eco", "col": 4, "width": 140, "type": "security", "label": "Pre-Shipment kontrola", "sublabel": "Zhoda výrobku s licenciou", "tag": "CLEARANCE" },
+    { "id": "customs_dispatched", "lane": "sales_exp", "col": 5, "width": 140, "type": "backend", "label": "Colná expedícia", "sublabel": "Vývoz a archivácia dokladov", "tag": "EXPEDOVANÉ" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "export_req", "to": "item_classification", "variant": "emphasis" },
+    { "id": "e2", "from": "item_classification", "to": "euc_verification", "label": "spadá pod reguláciu", "variant": "security" },
+    { "id": "e3", "from": "euc_verification", "to": "export_veto", "label": "embargo / stop", "variant": "security", "role": "error" },
+    { "id": "e4", "from": "euc_verification", "to": "mhsr_license", "label": "žiadosť na ministerstvo", "variant": "emphasis" },
+    { "id": "e5", "from": "mhsr_license", "to": "pre_shipment_check", "label": "udelená licencia", "variant": "security" },
+    { "id": "e6", "from": "pre_shipment_check", "to": "customs_dispatched", "label": "vývozná zelená", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Zákonný rámec exportu (Zákon 392/2011 Z. z.)",
+      "items": [
+        "Žiadna dodávka vojenského materiálu alebo položky s dvojakým použitím nesmie opustiť sklad bez platnej licencie",
+        "Neoprávnený vývoz zakladá priamu trestnoprávnu zodpovednosť štatutára a okamžité odobratie povolenia"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Pravidlá End-User Certificate (EUC)",
+      "items": [
+        "EUC musí byť úradne overený originál od certifikovanej štátnej autority kupujúcej krajiny",
+        "Re-export do tretej krajiny bez písomného súhlasu MH SR a Delta/IOTA Defence je striktne zakázaný"
+      ]
+    }
+  ]
+}

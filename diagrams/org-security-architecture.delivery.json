@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "80c7f87c-1cab-4487-8d4d-a78ba6cfe34b",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\org-security-architecture.architecture.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\org-security-architecture.html",
+  "specification": {
+    "sha256": "1fd84f29e2d6f013503c3ccb368bc8cff4c6bba0247b75b9b039cf78d586a1d8",
+    "bytes": 3979
+  },
+  "artifact": {
+    "sha256": "3d5dfd3a17aada1f230f783a29a0bfd021ee6b02356506664a445c7c09254c17",
+    "bytes": 765402
+  }
+}

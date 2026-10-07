@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "93a54abf-9586-482c-a643-8fb8ff260ea6",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.architecture.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc01-org-reporting.html",
+  "specification": {
+    "sha256": "6f68af19c2c0be5079eb1e9226df2cf86095201b1b98dd9d96943ed13f67188a",
+    "bytes": 5190
+  },
+  "artifact": {
+    "sha256": "bc8f26fc8a35b5d1502176648584c0a93b0a7b80f736efdf08761da2d9f8e55a",
+    "bytes": 775008
+  }
+}

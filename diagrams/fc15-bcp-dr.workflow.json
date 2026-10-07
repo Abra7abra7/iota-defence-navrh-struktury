@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-15: BCP & Disaster Recovery (Aktivácia krízového štábu)",
+    "output": "diagrams/fc15-bcp-dr.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "reporter_staff", "label": "Ohlasovateľ & Zamestnanci (Detekcia výpadku)" },
+    { "id": "crisis_team", "label": "Krízový štáb (CEO, CISO, CCO, Výrobný riaditeľ)" },
+    { "id": "recovery_it", "label": "IT & Infraštruktúra obnovy (Zálohy, Cloud, Air-gap)" }
+  ],
+  "phases": [
+    { "id": "activation", "label": "1. Hlásenie & Krízový štáb", "fromCol": 0, "toCol": 1 },
+    { "id": "containment", "label": "2. Náhradný postup BCP", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "restoration", "label": "3. Obnova & Post-Mortem", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "bcp_group", "label": "Aktivácia núdzového režimu & Krízový mandát", "lane": "crisis_team", "fromCol": 1, "toCol": 3, "variant": "security" }
+  ],
+  "mainPath": ["disruption_in", "crisis_team_active", "fallback_mode", "idp_recovery", "erp_recovery", "normal_operation"],
+  "nodes": [
+    { "id": "disruption_in", "lane": "reporter_staff", "col": 0, "width": 140, "type": "frontend", "label": "Hlásenie narušenia", "sublabel": "Výpadok kľúčových systémov" },
+    { "id": "crisis_team_active", "lane": "crisis_team", "col": 1, "width": 140, "type": "security", "label": "Aktivácia štábu", "sublabel": "Vyhlásenie stavu núdze BCP", "tag": "MANDÁT" },
+    { "id": "fallback_mode", "lane": "crisis_team", "col": 2, "width": 140, "type": "backend", "label": "Náhradný postup", "sublabel": "Papierový tok & offline režim", "tag": "BCP AKTÍVNY" },
+    { "id": "idp_recovery", "lane": "recovery_it", "col": 3, "width": 140, "type": "database", "label": "Obnova IdP & Siete", "sublabel": "Priorita 1: Identita a e-mail", "tag": "P1" },
+    { "id": "erp_recovery", "lane": "recovery_it", "col": 4, "width": 140, "type": "database", "label": "Obnova Platieb & ERP", "sublabel": "Priorita 2: Banka a výroba", "tag": "P2" },
+    { "id": "normal_operation", "lane": "crisis_team", "col": 5, "width": 140, "type": "backend", "label": "Návrat do normálu", "sublabel": "Zrušenie núdze & Post-Mortem", "tag": "POUČENIE" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "disruption_in", "to": "crisis_team_active", "variant": "emphasis" },
+    { "id": "e2", "from": "crisis_team_active", "to": "fallback_mode", "label": "vyhlásenie krízy", "variant": "security" },
+    { "id": "e3", "from": "fallback_mode", "to": "idp_recovery", "label": "spustenie DR plánu", "variant": "emphasis" },
+    { "id": "e4", "from": "idp_recovery", "to": "erp_recovery", "label": "overená identita", "variant": "security" },
+    { "id": "e5", "from": "erp_recovery", "to": "normal_operation", "label": "systémy obnovené", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Hierarchia priorít obnovy (RTO / RPO)",
+      "items": [
+        "1. Správa identít (IdP/IAM) a zabezpečená komunikácia krízového štábu (RTO < 4 hodiny)",
+        "2. Bankové platby a kritická komunikácia so zákazníkmi a štátnymi orgánmi (RTO < 12 hodín)",
+        "3. ERP, skladové hospodárstvo a výrobná linka (RTO < 24 hodín)"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Zálohy a nemennosť (Air-Gap Immutability)",
+      "items": [
+        "Kritické zálohy sú ukladané na oddelené off-site úložisko v režime WORM (Write Once, Read Many)",
+        "Minimálne raz ročne prebieha simulované cvičenie obnovy z nulového stavu (Bare-Metal DR test)"
+      ]
+    }
+  ]
+}

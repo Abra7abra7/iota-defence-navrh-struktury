@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "775885ce-26a6-4bc6-b61e-8e65619030f1",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc03-onboarding-access.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc03-onboarding-access.html",
+  "specification": {
+    "sha256": "4704e26bcbaf4736ec70c4082fa4708f58f756dc644738efb266ff662355f1a4",
+    "bytes": 3866
+  },
+  "artifact": {
+    "sha256": "db42576ecd9edc93f505c0e0f3cab56332121f891368f9a35bf91d4074be3765",
+    "bytes": 759521
+  }
+}

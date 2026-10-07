@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "2018bb8c-a245-4b07-9526-a9f8b3cc1862",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc09-sanctions-export-control.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\fc09-sanctions-export-control.html",
+  "specification": {
+    "sha256": "dee264bc24f5a04bb5f148b7c54d805476fcd7271a88e0ef4f99ce527f989b62",
+    "bytes": 4150
+  },
+  "artifact": {
+    "sha256": "e5722921e993cb6182155f93492c345348d6446fefa27b2b4802d64409e53b74",
+    "bytes": 760163
+  }
+}

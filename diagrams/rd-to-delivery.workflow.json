@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Proces 2: Vývojovo-výrobný a dodávateľský cyklus (R&D-to-Delivery)",
+    "output": "diagrams/rd-to-delivery.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "security_comp", "label": "Bezpečnosť & Compliance (NBÚ / Licencie)" },
+    { "id": "rd_eng", "label": "R&D & Výroba (Programátor / Montáž)" },
+    { "id": "operations", "label": "Vedenie & Financie (CEO / Účtovník)" }
+  ],
+  "phases": [
+    { "id": "setup", "label": "1. Právny & Bezpečnostný Rámec", "fromCol": 0, "toCol": 1 },
+    { "id": "production", "label": "2. Nákup & Integrácia AI", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "delivery", "label": "3. Skúšky & Odovzdanie", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "ip_lock", "label": "Mandatórne Zabezpečenie Know-How", "lane": "security_comp", "fromCol": 0, "toCol": 1, "variant": "security" }
+  ],
+  "mainPath": ["ip_contract", "secure_repo", "procure_parts", "assembly_flash", "range_testing", "final_delivery"],
+  "nodes": [
+    { "id": "ip_contract", "lane": "security_comp", "col": 0, "width": 140, "type": "security", "label": "IP Prevod & NDA", "sublabel": "zmluva s vývojárom", "tag": "KRITICKÉ" },
+    { "id": "secure_repo", "lane": "rd_eng", "col": 1, "width": 140, "type": "database", "label": "Chránený Repozitár", "sublabel": "izolovaný on-prem kód" },
+    { "id": "procure_parts", "lane": "operations", "col": 2, "width": 140, "type": "backend", "label": "Nákup Dual-Use", "sublabel": "BOM & colná evidencia" },
+    { "id": "assembly_flash", "lane": "rd_eng", "col": 3, "width": 140, "type": "frontend", "label": "Montáž & Flash AI", "sublabel": "bezpečná integrácia" },
+    { "id": "range_testing", "lane": "rd_eng", "col": 4, "width": 140, "type": "external", "label": "Letové Skúšky", "sublabel": "testovací polygón" },
+    { "id": "final_delivery", "lane": "operations", "col": 5, "width": 140, "type": "backend", "label": "Armádna Prebierka", "sublabel": "odovzdanie a protokol", "tag": "EXPEDÍCIA" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "ip_contract", "to": "secure_repo", "label": "prevod práv", "variant": "security" },
+    { "id": "e2", "from": "secure_repo", "to": "procure_parts", "label": "špecifikácia BOM", "variant": "emphasis" },
+    { "id": "e3", "from": "procure_parts", "to": "assembly_flash", "label": "dodávka dielov", "variant": "emphasis" },
+    { "id": "e4", "from": "assembly_flash", "to": "range_testing", "label": "prototyp hotový", "variant": "emphasis" },
+    { "id": "e5", "from": "range_testing", "to": "final_delivery", "label": "úspešný test", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Ochrana Duševného Vlastníctva (IP)",
+      "items": [
+        "Okamžitý podpis zmluvy o prevode majetkových práv k AI softvéru s externistom",
+        "Zákaz ukladania zdrojového kódu a váh modelov na verejné komerčné cloudy"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Sledovanie Komponentov & Odovzdanie",
+      "items": [
+        "Účtovník a Compliance evidujú každú súčiastku podliehajúcu dual-use režimu",
+        "Výstupná kontrola vyžaduje protokol o letových testoch a podpis štatutára"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "FC-03: Onboarding & Prideľovanie prístupov (Freelancer vs. TPP)",
+    "output": "diagrams/fc03-onboarding-access.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "hiring_lead", "label": "Vlastník roly & HR (Žiadateľ)" },
+    { "id": "compliance_sec", "label": "Compliance, Bezpečnosť & Právne (CCO / CISO / Legal)" },
+    { "id": "it_ops", "label": "IT Prevádzka & Správa prístupov (IdP / HW)" }
+  ],
+  "phases": [
+    { "id": "intake", "label": "1. Požiadavka & Previerka", "fromCol": 0, "toCol": 2 },
+    { "id": "legal_access", "label": "2. Zmluva & Prístupová matica", "fromCol": 3, "toCol": 4, "variant": "emphasis" },
+    { "id": "activation", "label": "3. IT Aktivácia & Protokol", "fromCol": 5, "toCol": 5, "variant": "dashed" }
+  ],
+  "groups": [
+    { "id": "gate_ip", "label": "Mandatórny IP prevod & Bezpečnostná previerka", "lane": "compliance_sec", "fromCol": 1, "toCol": 3, "variant": "security" }
+  ],
+  "mainPath": ["hiring_req", "vetting_dd", "contract_ip", "matrix_check", "it_provision", "active_onboarded"],
+  "nodes": [
+    { "id": "hiring_req", "lane": "hiring_lead", "col": 0, "width": 140, "type": "frontend", "label": "Požiadavka na rolu", "sublabel": "Definícia TPP vs Kontraktor" },
+    { "id": "vetting_dd", "lane": "compliance_sec", "col": 1, "width": 140, "type": "security", "label": "Previerka & Vetting", "sublabel": "Konflikt záujmov, bezúhonnosť", "tag": "BRÁNA" },
+    { "id": "vetting_stop", "lane": "compliance_sec", "col": 2, "width": 140, "type": "external", "label": "STOP NÁBORU", "sublabel": "Bezpečnostné riziko", "tag": "VETO" },
+    { "id": "contract_ip", "lane": "compliance_sec", "col": 3, "width": 140, "type": "security", "label": "Zmluva & IP Prevod", "sublabel": "NDA, Kódex, IP Assignment", "tag": "PRÁVNE" },
+    { "id": "matrix_check", "lane": "compliance_sec", "col": 4, "width": 140, "type": "security", "label": "Prístupová matica", "sublabel": "CISO schválenie zóny 1–4", "tag": "ZÓNY" },
+    { "id": "it_provision", "lane": "it_ops", "col": 4, "width": 140, "type": "database", "label": "IT Zriadenie", "sublabel": "IAM účet, firemný HW, MFA", "tag": "PROVISION" },
+    { "id": "active_onboarded", "lane": "hiring_lead", "col": 5, "width": 140, "type": "backend", "label": "Aktivovaný nástup", "sublabel": "Školenie CCO/CISO a protokol", "tag": "HOTOVO" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "hiring_req", "to": "vetting_dd", "variant": "emphasis" },
+    { "id": "e2", "from": "vetting_dd", "to": "vetting_stop", "label": "stop", "variant": "security", "role": "error" },
+    { "id": "e3", "from": "vetting_dd", "to": "contract_ip", "label": "overené", "variant": "emphasis" },
+    { "id": "e4", "from": "contract_ip", "to": "matrix_check", "variant": "emphasis" },
+    { "id": "e5", "from": "matrix_check", "to": "it_provision", "label": "schválené", "variant": "security" },
+    { "id": "e6", "from": "it_provision", "to": "active_onboarded", "label": "odovzdanie HW", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Kritické pravidlo pre externistov (Freelancerov)",
+      "items": [
+        "Žiadny externý programátor nesmie začať prácu bez podpísanej zmluvy s výhradným IP prevodom",
+        "Zákaz sťahovania dôverných dát (kódy, CAD, modely) na súkromné nefiremné zariadenia"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Prístup do Zóny 4 (Utajované)",
+      "items": [
+        "Prístup do utajovaných priestorov je povolený výhradne po udelení platnej previerky NBÚ",
+        "Pri zániku spolupráce (Offboarding) prebieha okamžité zablokovanie všetkých prístupov v deň D"
+      ]
+    }
+  ]
+}

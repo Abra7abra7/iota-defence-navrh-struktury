@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "7a94b9e2-cdd5-4b60-a9f3-5210c0fee2be",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\rd-to-delivery.workflow.json",
+  "output": "C:\\Users\\mstancik\\Documents\\01_Projekty\\projekty_a_vyvoj\\github\\delta-defence-navrh-struktury\\diagrams\\rd-to-delivery.html",
+  "specification": {
+    "sha256": "60d37684b8a054f3807a3b6aef5a137288aaec6633420b97558d40ff1fd676e7",
+    "bytes": 3443
+  },
+  "artifact": {
+    "sha256": "030ff68c934e6d67ac234eea735c3df145c1757fd3f19084f03df6f53862c266",
+    "bytes": 756829
+  }
+}

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IOTA & Delta Defence | SSOT Architektúra & Procesný Portál</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #090d16;
+      --bg-surface: #111827;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(56, 189, 248, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #06b6d4;
+      --accent-blue: #3b82f6;
+      --accent-rose: #f43f5e;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .brand-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      vertical-align: middle;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      max-width: 750px;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-pill .val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stat-pill .lbl {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(6, 182, 212, 0.15);
+      color: #fff;
+      border-color: var(--accent-cyan);
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1.25rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 1.25rem;
+      background: var(--accent-cyan);
+      border-radius: 2px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .card-type {
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .type-arch { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+    .type-flow { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .type-seq  { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(168, 85, 247, 0.3); }
+
+    .card-id {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag {
+      font-size: 0.725rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .card-btn:hover {
+      background: var(--accent-cyan);
+      color: #000;
+      border-color: var(--accent-cyan);
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1 class="brand-title">
+          IOTA & DELTA DEFENCE
+          <span class="brand-badge">SSOT PORTÁL v1.2</span>
+        </h1>
+        <p class="subtitle">
+          Jediný zdroj pravdy (Single Source of Truth) pre organizačnú štruktúru, 3 línie ochrany, 4 dátové perimetre, procesné toky a sekvenčné riadenie akciovej spoločnosti.
+        </p>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-pill">
+          <div class="val">15</div>
+          <div class="lbl">Interaktívnych modelov</div>
+        </div>
+        <div class="stat-pill">
+          <div class="val">4</div>
+          <div class="lbl">Dátové zóny</div>
+        </div>
+        <div class="stat-pill">
+          <div class="val">100%</div>
+          <div class="lbl">Audit súlad</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="filter-tabs">
+      <button class="filter-btn active" onclick="filterCards('all')">Všetky modely (15)</button>
+      <button class="filter-btn" onclick="filterCards('arch')">Architektúra & Riadenie (4)</button>
+      <button class="filter-btn" onclick="filterCards('flow')">Workflow & Procesy (8)</button>
+      <button class="filter-btn" onclick="filterCards('seq')">Sekvencie & AI Governance (3)</button>
+    </div>
+
+    <!-- SEKCIA 1: ARCHITEKTÚRA -->
+    <h2 class="section-title">1. Architektúra riadenia, orgánov a perimetrov</h2>
+    <div class="grid" data-category="arch">
+      <!-- FC-01 -->
+      <div class="card" data-type="arch">
+        <div class="card-header">
+          <span class="card-type type-arch">Architecture</span>
+          <span class="card-id">FC-01</span>
+        </div>
+        <h3 class="card-title">Organizačná štruktúra & Governance</h3>
+        <p class="card-desc">Hierarchia riadiacich orgánov (VZ, Dozorná rada, Predstavenstvo) a nezávislý reporting 2. línie (CCO, CISO, ECO) priamo Boardu.</p>
+        <div class="card-tags">
+          <span class="tag">Zákonný rámec</span>
+          <span class="tag">Oddelenie CISO</span>
+          <span class="tag">VETO</span>
+        </div>
+        <a href="fc01-org-reporting.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-02 -->
+      <div class="card" data-type="arch">
+        <div class="card-header">
+          <span class="card-type type-arch">Architecture</span>
+          <span class="card-id">FC-02</span>
+        </div>
+        <h3 class="card-title">Tri línie ochrany & STOP-Right</h3>
+        <p class="card-desc">Rozdelenie zodpovedností: 1. línia vlastní riziká, 2. línia vykonáva nezávislý dohľad a STOP právo, 3. línia nezávislý interný audit pre DR.</p>
+        <div class="card-tags">
+          <span class="tag">Three Lines Model</span>
+          <span class="tag">Zákaz kumulácie</span>
+          <span class="tag">Audit DR</span>
+        </div>
+        <a href="fc02-three-lines-of-defense.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-05 -->
+      <div class="card" data-type="arch">
+        <div class="card-header">
+          <span class="card-type type-arch">Architecture</span>
+          <span class="card-id">FC-05</span>
+        </div>
+        <h3 class="card-title">Architektúra 4 dátových zón</h3>
+        <p class="card-desc">Zero-Trust perimeter: Zóna 1 (Verejná), Zóna 2 (Firemné IT / MFA), Zóna 3 (Dôverné / On-prem Git / ERP), Zóna 4 (Utajované NBÚ / Air-gap).</p>
+        <div class="card-tags">
+          <span class="tag">Zákon 215/2004</span>
+          <span class="tag">On-premise Trezor</span>
+          <span class="tag">Air-Gap</span>
+        </div>
+        <a href="fc05-data-zones.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- SECURITY ARCH -->
+      <div class="card" data-type="arch">
+        <div class="card-header">
+          <span class="card-type type-arch">Architecture</span>
+          <span class="card-id">ARCH-01</span>
+        </div>
+        <h3 class="card-title">Bezpečnostný perimeter spoločnosti</h3>
+        <p class="card-desc">Komplexné mapovanie oddelenia komerčnej sféry od R&D vývoja autonómnych UAV a on-premise šifrovaného úložiska.</p>
+        <div class="card-tags">
+          <span class="tag">Need-to-Know</span>
+          <span class="tag">UAV Workshop</span>
+          <span class="tag">Izolácia vývoja</span>
+        </div>
+        <a href="org-security-architecture.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+    </div>
+
+    <!-- SEKCIA 2: WORKFLOW -->
+    <h2 class="section-title">2. Kľúčové procesné toky (Workflow & Brány)</h2>
+    <div class="grid" data-category="flow">
+      <!-- LEAD TO CONTRACT -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">PROC-01</span>
+        </div>
+        <h3 class="card-title">Obchodno-licenčný tok (Lead-to-Contract)</h3>
+        <p class="card-desc">Od príjmu dopytu cez sankčný vetting koncového používateľa (EUC), mandátne VETO právo CCO až po podpis zmluvy.</p>
+        <div class="card-tags">
+          <span class="tag">EUC Vetting</span>
+          <span class="tag">Mandatórne VETO</span>
+          <span class="tag">MH SR súlad</span>
+        </div>
+        <a href="lead-to-contract.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- RD TO DELIVERY -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">PROC-02</span>
+        </div>
+        <h3 class="card-title">R&D vývoj a výroba bezpilotných systémov</h3>
+        <p class="card-desc">Vývoj autonómnych modelov, hardvérová integrácia, letové skúšky na polygóne a výstupná vojenská inšpekcia.</p>
+        <div class="card-tags">
+          <span class="tag">AI Modely</span>
+          <span class="tag">Letový polygón</span>
+          <span class="tag">Prebierka</span>
+        </div>
+        <a href="rd-to-delivery.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-03 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-03</span>
+        </div>
+        <h3 class="card-title">Onboarding & Prístupy (Freelancer vs. TPP)</h3>
+        <p class="card-desc">Životný cyklus nástupu pracovníka, povinný IP transfer externistov, zónová matica CISO a odovzdanie HW s MFA.</p>
+        <div class="card-tags">
+          <span class="tag">IP Prevod</span>
+          <span class="tag">Zákaz sťahovania</span>
+          <span class="tag">Offboarding deň D</span>
+        </div>
+        <a href="fc03-onboarding-access.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-04 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-04</span>
+        </div>
+        <h3 class="card-title">Nákupný proces P2P (Procure-to-Pay)</h3>
+        <p class="card-desc">Žiadosť o nákup, autorizácia podľa limitov L1–L4, vystavenie PO, fyzická akceptácia a mechanizmus 3-Way Match & 4-oči.</p>
+        <div class="card-tags">
+          <span class="tag">PO Systém</span>
+          <span class="tag">3-Way Match</span>
+          <span class="tag">Overenie IBAN</span>
+        </div>
+        <a href="fc04-p2p-procurement.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-07 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-07/06</span>
+        </div>
+        <h3 class="card-title">Due Diligence partnerov & Platba agentovi</h3>
+        <p class="card-desc">Screening partnerov, UBO previerka, rozhodnutie CCO, protikorupčné doložky a bezhotovostná platba agentom.</p>
+        <div class="card-tags">
+          <span class="tag">UBO Previerka</span>
+          <span class="tag">ABAC Zmluva</span>
+          <span class="tag">Zákaz hotovosti</span>
+        </div>
+        <a href="fc07-due-diligence.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-09 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-09</span>
+        </div>
+        <h3 class="card-title">Sankcie, Licencie MH SR & Export Control</h3>
+        <p class="card-desc">Zatriedenie tovaru (Vojenský materiál / Dual-Use), previerka originálu EUC, licenčné konanie a colná expedícia.</p>
+        <div class="card-tags">
+          <span class="tag">Zákon 392/2011</span>
+          <span class="tag">Originál EUC</span>
+          <span class="tag">Pre-Shipment</span>
+        </div>
+        <a href="fc09-sanctions-export-control.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-08 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-08/14</span>
+        </div>
+        <h3 class="card-title">Incident Response & SIEM Eskalácia</h3>
+        <p class="card-desc">Detekcia alertu, triáž P1–P4 do 15 minút, karanténa systémov, forenzný obraz a zákonná notifikácia NBÚ do 72 hodín.</p>
+        <div class="card-tags">
+          <span class="tag">Kybernetická obrana</span>
+          <span class="tag">Izolácia siete</span>
+          <span class="tag">Hlásenie NBÚ 72h</span>
+        </div>
+        <a href="fc08-fc14-incident-response.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-15 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-15</span>
+        </div>
+        <h3 class="card-title">BCP & Disaster Recovery krízový štáb</h3>
+        <p class="card-desc">Aktivácia krízového štábu, náhradný offline režim a postupnosť obnovy podľa RTO/RPO (IdP -> Komunikácia -> Platby -> ERP).</p>
+        <div class="card-tags">
+          <span class="tag">Plán kontinuity</span>
+          <span class="tag">Krízový mandát</span>
+          <span class="tag">WORM Zálohy</span>
+        </div>
+        <a href="fc15-bcp-dr.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-10-12 -->
+      <div class="card" data-type="flow">
+        <div class="card-header">
+          <span class="card-type type-flow">Workflow</span>
+          <span class="card-id">FC-10/11/12</span>
+        </div>
+        <h3 class="card-title">Integrita, Whistleblowing & Konflikt záujmov</h3>
+        <p class="card-desc">Prijatie podnetu do 7 dní, vyšetrenie do 90 dní, linka na Dozornú radu pri konflikte štatutára a register darov nad 500 €.</p>
+        <div class="card-tags">
+          <span class="tag">Zák. 54/2019</span>
+          <span class="tag">Register darov</span>
+          <span class="tag">Zákaz odvety</span>
+        </div>
+        <a href="fc10-fc12-ethics-governance.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+    </div>
+
+    <!-- SEKCIA 3: SEKVENCIE & AI GOVERNANCE -->
+    <h2 class="section-title">3. Sekvenčné toky & AI Governance</h2>
+    <div class="grid" data-category="seq">
+      <!-- FC-16 -->
+      <div class="card" data-type="seq">
+        <div class="card-header">
+          <span class="card-type type-seq">Sequence</span>
+          <span class="card-id">FC-16</span>
+        </div>
+        <h3 class="card-title">AI Agent Gated Flow & Dual Control Replay</h3>
+        <p class="card-desc">Sekvencia autonómneho agenta: overenie scope v registri, vyhodnotenie v Policy Engine, ľudská autorizácia a nemenný audit log.</p>
+        <div class="card-tags">
+          <span class="tag">Human Gate (4-oči)</span>
+          <span class="tag">Immutable Hash</span>
+          <span class="tag">Replay Fingerprint</span>
+        </div>
+        <a href="fc16-ai-agent-decision.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+
+      <!-- FC-13 -->
+      <div class="card" data-type="seq">
+        <div class="card-header">
+          <span class="card-type type-seq">Sequence</span>
+          <span class="card-id">FC-13</span>
+        </div>
+        <h3 class="card-title">Schvaľovacie limity L1–L4 & Podpisový poriadok</h3>
+        <p class="card-desc">Sekvenčný tok eskalácie výdavkov: L1 (1 000 €), L2 (10 000 €), L3 (50 000 € / CCO filter), L4 (Predstavenstvo) a 4-oči v banke.</p>
+        <div class="card-tags">
+          <span class="tag">Limity L1–L4</span>
+          <span class="tag">Rizikový filter</span>
+          <span class="tag">Zákaz delenia</span>
+        </div>
+        <a href="fc13-approval-limits.html" class="card-btn" target="_blank">Otvoriť diagram ↗</a>
+      </div>
+    </div>
+
+    <footer>
+      <div>
+        <strong>IOTA Defence a.s. & Delta Defence</strong> | Single Source of Truth Repository
+      </div>
+      <div>
+        Vypracoval: Márian Stančík | Aktualizácia: 7. 10. 2026
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function filterCards(type) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.card');
+      const titles = document.querySelectorAll('.section-title');
+
+      if (type === 'all') {
+        cards.forEach(c => c.style.display = 'flex');
+        titles.forEach(t => t.style.display = 'flex');
+      } else {
+        cards.forEach(c => {
+          if (c.getAttribute('data-type') === type) {
+            c.style.display = 'flex';
+          } else {
+            c.style.display = 'none';
+          }
+        });
+        titles.forEach(t => t.style.display = 'flex');
+      }
+    }
+  </script>
+</body>
+</html>
